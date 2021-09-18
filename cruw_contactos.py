@@ -1,4 +1,5 @@
 import mysql.connector
+import hashlib
 
 db = mysql.connector.connect(
     host='127.0.0.1',
@@ -8,20 +9,21 @@ db = mysql.connector.connect(
     port=3308
 
 )
-def crearUsuario(nombre, email, contrasena):
+def crearUser(nombre, email, password):
     cursor = db.cursor()
 
     cursor.execute('''insert into
-    usuarios(nombre, email, contrasena)
+    usuarios(nombre, email, password)
     values(%s, %s, %s)''',(
         nombre,
         email, 
-        contrasena
+        password
     ))
-    #creacion, modificacion, eliminacion de datos para
+    
     db.commit()
     cursor.close() 
-crearUsuario('juanpa','jupa@gmail.com','1256')
+h = hashlib.new("sha1", b"4123")
+crearUser('juanpiz','jupa24609@gmail.com','42131')
 cursor = db.cursor()
 cursor.execute('select * from usuarios')
 usuarios = cursor.fetchall()
